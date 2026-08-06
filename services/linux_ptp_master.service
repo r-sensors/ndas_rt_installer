@@ -1,0 +1,9 @@
+[Unit]
+After=network.target
+After=generic-board-startup.service
+
+[Service]
+ExecStart=/root/ndas_rt/linux_ptp_master.sh
+
+[Install]
+WantedBy=default.target

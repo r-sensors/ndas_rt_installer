@@ -1,0 +1,23 @@
+[Unit]
+Description=chrony, an NTP client/server
+Documentation=man:chronyd(8) man:chronyc(1) man:chrony.conf(5)
+Conflicts=systemd-timesyncd.service openntpd.service ntp.service ntpsec.service
+After=network.target
+After=generic-board-startup.service
+ConditionCapability=CAP_SYS_TIME
+
+[Service]
+Type=forking
+PIDFile=/run/chronyd.pid
+EnvironmentFile=-/etc/default/chrony
+ExecStart=/usr/sbin/chronyd $DAEMON_OPTS
+ExecStartPost=-/usr/lib/chrony/chrony-helper update-daemon
+PrivateTmp=yes
+ProtectHome=yes
+ProtectSystem=full
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+Alias=chronyd.service
+WantedBy=multi-user.target

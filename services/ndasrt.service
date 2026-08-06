@@ -1,0 +1,9 @@
+[Unit]
+After=network.target
+After=generic-board-startup.service
+
+[Service]
+ExecStart=/root/ndas_rt/autorun_as_root.sh
+
+[Install]
+WantedBy=default.target

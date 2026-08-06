@@ -1,0 +1,12 @@
+[Unit]
+Description=Python Reverse SSH Tunnel Agent
+After=network.target
+
+[Service]
+User=debian
+ExecStart=/var/lib/cloud9/ndas_rt/system_manager/bin/reverse_ssh_agent
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
