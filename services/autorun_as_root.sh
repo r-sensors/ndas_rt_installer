@@ -77,7 +77,7 @@ echo out > /sys/class/gpio/gpio50/direction
 echo 0 > /sys/class/gpio/gpio50/value
 
 echo "Setting UP GPIO_49 (ADC control pins)"
-echo 61 > /sys/class/gpio/unexport 
+echo 61 > /sys/class/gpio/unexport
 echo 61 > /sys/class/gpio/export
 echo out > /sys/class/gpio/gpio61/direction
 
@@ -113,7 +113,7 @@ gpsd -n -b /dev/ttyS4
 #gpsd -n -N -D 1 /dev/ttyS4
 
 echo 'Executing boot routines'
-/root/ndas_rt/boot_routines
+/root/ndas_rt/boot_routines --host "192.168.0.110"
 
 echo "Starting NDAS-RT system manager"
 sudo -u debian python3 /var/lib/cloud9/ndas_rt/ndas_rt.py

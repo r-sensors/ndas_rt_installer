@@ -4,12 +4,17 @@ function print_green {
     echo -e "\e[32m$1\e[0m"
 }
 print_green "Welcome to NDAS-RT installer!"
+sudo -u debian python3 utils/eeprom/eeprom_content_creator.py;
 print_green "Downloading ndas_rt"
-if git clone https://github.com/r-sensors/ndas_rt.git; then
-    echo "The repository has been uploaded successfully"
+if [ ! -d "./ndas_rt" ]; then
+    if git clone https://github.com/r-sensors/ndas_rt.git; then
+        echo "The repository has been uploaded successfully";
+    else
+        echo "Cannot download repo!";
+        exit 1
+    fi
 else
-    echo "Cannot download repo!"
-    exit 1
+    echo "ndas_rt directory is exist!";
 fi
 print_green "Starting installation of debian packages"
 dpkg -i --skip-same-version deb_packages/*.deb ;
@@ -23,3 +28,4 @@ print_green "Starting installation of NDAS-RT software"
 bash scripts/install_software.sh ;
 print_green "Starting installation and running of NDAS-RT service"
 bash services/install_services.sh enable;
+sudo chwon -R debian:debian /var/lib/cloud9/ndas_rt/settings

@@ -5,7 +5,7 @@ import os
 import db_conn
 
 
-db = db_conn.DATABASE(custom_key=True)
+db = db_conn.DATABASE(server=("192.168.0.110", 8400), custom_key=True)
 eeprom = eeprom.EEPROM()
 device_data = eeprom.read_json()
 

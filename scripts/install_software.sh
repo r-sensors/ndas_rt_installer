@@ -17,10 +17,10 @@ function keep_settings {
     while true; do
     read -p "Keep old settings? (y/n)?" yn
         case $yn in
-            [Yy]* ) 
+            [Yy]* )
                 remove_all_but_settings
                 break;;
-            [Nn]* ) 
+            [Nn]* )
                 rm /root/ndas_rt/firewall-rules
                 rm -r ${install_dir}
                 mkdir ${install_dir}
@@ -37,8 +37,8 @@ function make_backup {
                 case $yn in
                     [Yy]* )
                         backup_name=${backup_dir}/$(date +'%Y-%m-%d_%H-%M-%S')".zip"
-                        if [ ! -d "$backup_dir" ]; 
-                            then mkdir ${backup_dir}; 
+                        if [ ! -d "$backup_dir" ];
+                            then mkdir ${backup_dir};
                             chown ${username} ${backup_dir}
                         fi
                         zip -r ${backup_name} ${install_dir}
@@ -50,7 +50,7 @@ function make_backup {
                 esac
         done
 }
-    
+
 function install_modules {
     for f in $install_dir/sw_modules/*; do
         if [ -d "$f" ]; then
@@ -63,22 +63,20 @@ function install_modules {
 
 
 #backup previous installation and move settings if nesessary
-if [ -d "$install_dir" ]; then 
+if [ -d "$install_dir" ]; then
     make_backup
     keep_settings
-else 
+else
     mkdir ${install_dir}
 fi
-#copy new files and 
+#copy new files and
 if [ -d "../ndas_rt" ]; then
     cp -r ../ndas_rt/* ${install_dir}
 elif [ -d "../ndas_rt_src" ]; then
     cp -r ../ndas_rt_src/* ${install_dir}
-else 
+else
     echo "There is not ndas_rt directory. Need to use 'git clone --recurse-submodules'"
-fi    
-#copy default settings
-cp -r ../default_setting/settings_for_ndas8426n ${install_dir}/settings
+fi
 
 bash ${install_dir}/system_manager/install.sh
 install_modules
